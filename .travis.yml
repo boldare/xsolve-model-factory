@@ -1,0 +1,38 @@
+language: php
+
+branches:
+  only:
+    - master
+    - /^v\d+\.\d+\.\d+$/
+
+matrix:
+  include:
+    - php: 5.6
+      env: PHPSTAN=false
+    - php: 7.0
+      env: PHPSTAN=true
+    - php: 7.1
+      env: PHPSTAN=true
+    - php: hhvm
+      env: PHPSTAN=false
+  fast_finish: true
+  allow_failures:
+    - php: hhvm
+
+cache:
+  directories:
+    - vendor/
+    - $HOME/.composer/cache
+
+before_install:
+  - phpenv config-rm xdebug.ini || echo "xdebug not available"
+  - composer self-update
+
+install: 
+  - cp phpunit.xml.dist phpunit.xml
+  - composer install
+  - if [[ ${PHPSTAN} == "true" ]]; then composer require --dev phpstan/phpstan; fi
+
+script:
+  - vendor/phpunit/phpunit/phpunit -c phpunit.xml tests/
+  - if [[ ${PHPSTAN} == "true" ]]; then vendor/bin/phpstan analyse -l 7 lib; fi
