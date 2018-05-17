@@ -3,9 +3,11 @@ language: php
 branches:
   only:
     - master
+    - develop
     - /^v\d+\.\d+\.\d+$/
 
 matrix:
+  fast_finish: true
   include:
     - php: 5.6
       env: PHPSTAN=false
@@ -13,9 +15,10 @@ matrix:
       env: PHPSTAN=true
     - php: 7.1
       env: PHPSTAN=true
+    - php: 7.2
+      env: PHPSTAN=true
     - php: hhvm
       env: PHPSTAN=false
-  fast_finish: true
   allow_failures:
     - php: hhvm
 
@@ -25,7 +28,7 @@ cache:
     - $HOME/.composer/cache
 
 before_install:
-  - phpenv config-rm xdebug.ini || echo "xdebug not available"
+  - phpenv config-rm xdebug.ini || echo "XDebug disabled."
   - composer self-update
 
 install: 
