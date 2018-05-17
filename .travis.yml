@@ -3,6 +3,7 @@ language: php
 branches:
   only:
     - master
+    - develop
     - /^v\d+\.\d+\.\d+$/
 
 matrix:
