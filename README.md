@@ -29,15 +29,19 @@ before they are handed over to some other libraries or bundles.
 It aims to empower models so that they can easily get access to some services or
 create nested models lazily without requiring much work upfront.
 
+If you want to use this library in a Symfony application you may be interested in
+using the dedicated bundle available at
+[xsolve-pl/model-factory-bundle](https://packagist.org/packages/xsolve-pl/model-factory-bundle).
+
 License
 =======
 
-This bundle is under the MIT license. See the complete license in `LICENSE` file.
+This library is under the MIT license. See the complete license in `LICENSE` file.
 
 Getting started
 ===============
 
-Include this bundle in your project using Composer as follows
+Include this library in your project using Composer as follows
 (assuming it is installed globally):
 
 ```bash
@@ -55,7 +59,7 @@ Usage examples
 Implementing model factory
 --------------------------
 
-This bundle defines a simple interface for model factory that provides
+This library defines a simple interface for model factory that provides
 information about whether it supports given object (i.e. is able to produce
 model object appropriate for given object) and instantiate such model object.
 It also include convenient methods allowing to operate on multiple objects at
@@ -105,10 +109,10 @@ to return some value. Simple example would be having an model object
 representing a package for which volumetric weight needs to be calculated
 (which results from multiplying its volume by some coefficient specific for
 each shipment company). A helper class calculating such value would usually
-be defined as a service in Symfony's DI container, with coefficient provided
-via `config.yml` or fetched from some data storage.
+be defined as a service in DI container, with coefficient provided via
+some config files or fetched from some data storage.
 
-With this bundle it is extremely easy to gain access to such services in model
+With this library it is extremely easy to gain access to such services in model
 object by utilizing
 `Xsolve\ModelFactory\ModelFactory\ModelFactoryAwareModelInterface`. If
 `Xsolve\ModelFactory\ModelFactory\ModelFactory` was used as a base class
@@ -259,18 +263,12 @@ $baz1Model = $modelFactoryCollection->createModel($baz1);
 
 ```
 
-**TODO Add code example for ModelFactoryCollectionAwareModelFactoryTrait **
+This snippet defines one model factory collections `$modelFactoryCollection` and two model
+factories `$fooModelFactory` and `$bazModelFactory` which are added to the collection.
 
-This snippet defines two model factory collections (with ids
-`example.model_factory_collection.first` and
-`example.model_factory_collection.second` respectively). It also defines a
-single model factory (with id `example.model_factory.foo`). This service has a
-tag assigned with `name` attribute equal
-`xsolve.model_factory_bundle.model_factory` (which will result in it being
-processed by
-`Xsolve\ModelFactory\DependencyInjection\CompilerPass\ModelFactoryCollectionCompilerPass`)
-and `model-factory-collection-id` attribute containing service ids of
-respective collections.
+Afterwards it is possible to call `createModel` method (as well as other methods
+characteristic for model factories) on the collection and model will be created as long as
+there is one and only one model factory supporting given object.
 
 Creating nested models
 ----------------------
