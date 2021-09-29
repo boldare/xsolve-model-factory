@@ -9,13 +9,9 @@ branches:
 matrix:
   fast_finish: true
   include:
-    - php: 5.6
-      env: PHPSTAN=false
-    - php: 7.0
+    - php: 7.4
       env: PHPSTAN=true
-    - php: 7.1
-      env: PHPSTAN=true
-    - php: 7.2
+    - php: 8.0
       env: PHPSTAN=true
     - php: hhvm
       env: PHPSTAN=false
